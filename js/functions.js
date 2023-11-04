@@ -33,3 +33,28 @@ const returnNumber = function(string){
   }
 }
 returnNumber('ХТМЛ Академия 2022');
+
+//ДЗ 5.16 ФУНКЦИЯ "ДЕЛУ - ВРЕМЯ"
+function isMeetingWithinWorkingHours(startTime, endTime, meetingStartTime, meetingDuration) {
+
+  const workingHoursStart = startTime.split(':');
+  const workingHoursEnd = endTime.split(':');
+  const meetingStart = meetingStartTime.split(':');
+
+  const workingHoursStartHours = parseInt(workingHoursStart[0]);
+  const workingHoursStartMinutes = parseInt(workingHoursStart[1]);
+  const workingHoursEndHours = parseInt(workingHoursEnd[0]);
+  const workingHoursEndMinutes = parseInt(workingHoursEnd[1]);
+  const meetingStartHours = parseInt(meetingStart[0]);
+  const meetingStartMinutes = parseInt(meetingStart[1]);
+  const meetingEndMinutes = meetingStartMinutes + meetingDuration;
+
+  if (meetingStartHours < workingHoursStartHours || meetingEndMinutes > (workingHoursEndHours * 60 + workingHoursEndMinutes)) {
+    return false;
+  }
+
+  return true;
+}
+
+console.log(isMeetingWithinWorkingHours('8:00', '17:00', '10:30', 90)); // true
+console.log(isMeetingWithinWorkingHours('9:00', '15:30', '16:00', 60)); // false
