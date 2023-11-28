@@ -1,3 +1,4 @@
+import {openModal, closeModal, thumbnail, closeButton, escape} from "./picture.js";
 
 const ThumbnailRenderer = (function() {
 
