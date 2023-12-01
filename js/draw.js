@@ -3,7 +3,9 @@ import {openModal, closeModal, thumbnail, closeButton, escape} from "./picture.j
 const ThumbnailRenderer = (function() {
 
   const picturesContainer = document.querySelector('.pictures');
-
+  const commentCount = document.querySelector('.social__comment-count');
+  const commentsLoader = document.querySelector('.comments-loader');
+  let loadedComments = 5;
 
   function createThumbnail(photo) {
 
@@ -41,10 +43,37 @@ const ThumbnailRenderer = (function() {
     picturesContainer.innerHTML = '';
 
     picturesContainer.appendChild(fragment);
+
+    commentCount.textContent = '5' + ' из ' + photos[0].comments;
+
+    if (photos[0].comments > 5) {
+      commentsLoader.classList.remove('hidden');
+    }
+  }
+
+  function loadMoreComments() {
+    const comments = document.querySelectorAll('.social__comment');
+
+    for (let i = loadedComments; i < loadedComments + 5; i++) {
+      if (comments[i]) {
+        comments[i].classList.remove('hidden');
+      } else {
+        commentsLoader.classList.add('hidden');
+        break;
+      }
+    }
+
+    loadedComments += 5;
+    commentCount.textContent = loadedComments + ' из ' + photos[0].comments;
+  }
+
+  function setupEventListeners() {
+    commentsLoader.addEventListener('click', loadMoreComments);
   }
 
   return {
-    renderThumbnails: renderThumbnails
+    renderThumbnails: renderThumbnails,
+    setupEventListeners: setupEventListeners
   };
 })();
 
@@ -54,20 +83,21 @@ const photos = [
     url: 'photo1.jpg',
     description: 'Фотография 1',
     likes: 10,
-    comments: 5
+    comments: 12
   },
   {
     url: 'photo2.jpg',
     description: 'Фотография 2',
     likes: 15,
-    comments: 3
+    comments: 8
   },
   {
     url: 'photo3.jpg',
     description: 'Фотография 3',
     likes: 20,
-    comments: 7
+    comments: 20
   }
 ];
 
 ThumbnailRenderer.renderThumbnails(photos);
+ThumbnailRenderer.setupEventListeners();
