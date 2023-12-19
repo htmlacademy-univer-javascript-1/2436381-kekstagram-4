@@ -1,9 +1,22 @@
-function generateRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+const randomInteger = (min, max) => {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
 
-function generateRandomIndex(array) {
-  return Math.floor(Math.random() * array.length);
-}
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
+};
+const Keys = {
+  ESCAPE: 'Escape',
+  ESC: 'Esc'
+};
 
-export {generateRandomIndex, generateRandomNumber}
+const isEscapeKey = (evt) => evt.key === Keys.ESCAPE || evt.key === Keys.ESC;
+
+const closeOnEscKeyDown = (evt, cb) => {
+  if (isEscapeKey(evt)) {
+    cb();
+  }
+};
+
+export{randomInteger};
+export{closeOnEscKeyDown};

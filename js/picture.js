@@ -1,25 +1,45 @@
-function openModal() {
-  const bigPicture = document.querySelector('.big-picture');
-  bigPicture.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-}
+import {showBigPicture} from './big-picture.js';
+const pictures = document.querySelector('.pictures');
 
-function closeModal() {
-const bigPicture = document.querySelector('.big-picture');
-  bigPicture.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-}
+const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const thumbnail = document.querySelector('.thumbnail');
-thumbnail.addEventListener('click', openModal);
 
-const closeButton = document.querySelector('.close-button');
-closeButton.addEventListener('click', closeModal);
+const renderPicture = (photo) => {
 
-const escape = document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    closeModal();
-  }
-});
+  const {url, description, comments, likes} = photo;
 
-export {openModal, closeModal, thumbnail, closeButton, escape}
+  const pictureElement = pictureTemplate.cloneNode(true);
+
+  pictureElement.querySelector('.picture__img').src = url;
+
+  pictureElement.querySelector('.picture__img').alt = description;
+
+  pictureElement.querySelector('.picture__comments').textContent = comments.length;
+
+  pictureElement.querySelector('.picture__likes').textContent = likes;
+
+  const onPictureElementClick = (evt) => {
+    evt.preventDefault();
+
+    showBigPicture(photo);
+  };
+
+  pictureElement.addEventListener('click', onPictureElementClick);
+
+  return pictureElement;
+
+};
+
+const fragment = document.createDocumentFragment();
+
+const renderPictures = (photos) => {
+
+  photos.forEach((photo) => {
+
+    fragment.appendChild(renderPicture(photo));
+  });
+
+  pictures.appendChild(fragment);
+
+};
+export {renderPictures};

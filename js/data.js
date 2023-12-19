@@ -1,78 +1,73 @@
-import { generateRandomIndex, generateRandomNumber } from "./util.js";
+import {randomInteger} from './util.js';
 
-function generateRandomSentence() {
-  const sentences = [
-    'Всё отлично!',
-    'В целом всё неплохо. Но не всё.',
-    'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-    'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-    'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-    'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
-  ];
-  return sentences[generateRandomIndex(sentences)];
-}
+const COUNT_PHOTOS = 25;
 
-function generateRandomAvatar() {
-  const avatarIndex = generateRandomNumber(1, 6);
-  return `img/avatar-${avatarIndex}.svg`;
-}
+const LIKES = {
+  MIN: 15,
+  MAX: 200
+};
 
-function generateRandomComment() {
-  return {
-    id: generateRandomNumber(1, 1000),
-    avatar: generateRandomAvatar(),
-    message: generateRandomSentence(),
-    name: generateRandomName()
-  };
-}
+const COUNT_AVATARS = {
+  MIN : 1,
+  MAX : 6
+};
 
-function generateRandomComments() {
-  const commentsCount = generateRandomNumber(0, 30);
-  const comments = [];
-  for (let i = 0; i < commentsCount; i++) {
-    comments.push(generateRandomComment());
-  }
-  return comments;
-}
+const COUNT_COMMENTS = {
+  MIN: 0,
+  MAX: 30
+};
 
-function generateRandomName() {
-  const names = [
-    'Влад',
-    'Дмитрий',
-    'Елена',
-    'Мария',
-    'Николай',
-    'Ольга',
-    'Павел',
-    'Светлана'
-  ];
-  return names[generateRandomIndex(names)];
-}
+const NAMES = [
+  'Иван',
+  'Екатерина',
+  'Мария',
+  'Виктор',
+  'Юлия',
+];
 
-function generateRandomPhoto() {
-  const id = generateRandomNumber(1, 25);
-  const url = `photos/${id}.jpg`;
-  const description = generateRandomSentence();
-  const likes = generateRandomNumber(15, 200);
-  const comments = generateRandomComments();
+const DESCRIPTIONS = [
+  'Осенняя прогулка в парке',
+  'Завтрак в кофейне',
+  'Звездная ночь',
+  'Вечер с друзьями',
+  'Семейный ужин',
+];
 
-  return {
-    id,
-    url,
-    description,
-    likes,
-    comments
-  };
-}
+const MESSAGES = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
+];
 
-function generatePhotosArray() {
-  const photos = [];
-  for (let i = 0; i < 25; i++) {
-    photos.push(generateRandomPhoto());
-  }
-  return photos;
-}
+const addComment = (i) => ({
+  id: i,
+  avatar: `img/avatar-${randomInteger(COUNT_AVATARS.MIN, COUNT_AVATARS.MAX)}.svg`,
+  message: MESSAGES[randomInteger(0, MESSAGES.length - 1)],
+  name: NAMES[randomInteger(0,NAMES.length - 1)],
 
-const photosArray = generatePhotosArray();
+});
 
-export {photosArray}
+const addComments = () => Array.from({length: randomInteger(COUNT_COMMENTS.MIN, COUNT_COMMENTS.MAX)}, (_, index) => addComment(index + 1));
+
+const addPhoto = (index) => ({
+  id: index,
+  url: `photos/${index + 1}.jpg`,
+  description: DESCRIPTIONS[randomInteger(0, DESCRIPTIONS.length - 1)],
+  likes: randomInteger(LIKES.MIN, LIKES.MAX),
+  comments: addComments()
+
+});
+
+const addPhotos = () => {
+  const PHOTOS = Array.from({
+    length: COUNT_PHOTOS
+  });
+  return PHOTOS.map((__, index) => addPhoto(index));
+};
+
+const data = addPhotos();
+
+export {data};
