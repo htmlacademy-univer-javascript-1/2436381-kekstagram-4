@@ -1,3 +1,4 @@
-import { photosArray } from "./data.js";
+import {data} from './data.js';
+import {renderPictures} from './picture.js';
 
-photosArray();
+renderPictures(data);
