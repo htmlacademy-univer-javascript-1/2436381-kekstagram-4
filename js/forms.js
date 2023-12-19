@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { onFilterButtonChange, effectList, sliderWrapper } from './actions.js';
 
 const Zoom = {
   MIN: 25,
@@ -14,11 +15,12 @@ const formUploadClose = body.querySelector('#upload-cancel');
 const minusButton = body.querySelector('.scale__control--smaller');
 const plusButton = body.querySelector('.scale__control--bigger');
 const scaleControlValue = body.querySelector('.scale__control--value');
-const imagePreview = body.querySelector('.img--upload__preview');
+const imagePreview = body.querySelector('.img-upload__preview img');
 
 const closeForm = () => {
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
+  effectList.removeEventListener('change', onFilterButtonChange);
 
   imagePreview.style.transform = '';
   imagePreview.className = 'img-upload__preview';
@@ -39,11 +41,20 @@ const onCloseFormEscKeyDown = (evt) => {
   }
 };
 
+const changeImages = () => {
+  const file = fileUpload.files[0];
+  const fileUrl = URL.createObjectURL(file);
+
+  imagePreview.src = fileUrl;
+};
+
 const onFileUploadChange = () => {
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
-
+  changeImages();
   document.addEventListener('keydown', onCloseFormEscKeyDown);
+  sliderWrapper.classList.add('hidden');
+  effectList.addEventListener('change', onFilterButtonChange);
 };
 
 fileUpload.addEventListener('change', onFileUploadChange);
@@ -78,4 +89,4 @@ const onPlusButtonClick = () => {
 minusButton.addEventListener('click', onMinusButtonClick);
 plusButton.addEventListener('click', onPlusButtonClick);
 
-export {closeForm, formUpload};
+export {closeForm, formUpload, imagePreview};
