@@ -1,7 +1,7 @@
 //ФУНКЦИЯ №1 ПРОВЕРКА ДЛИНЫ СТРОКИ
 const checkStringLength = function(string, length){
   return string.length <= length;
-}
+};
 checkStringLength('Ярик внатуре машина', 20);
 
 //ФУНКЦИЯ №2 ПРОВЕРКА СТРОКИ НА ПАЛИНДРОМ
@@ -15,7 +15,7 @@ const isPalindrome = function(string){
     return true;
   }
   return false;
-}
+};
 isPalindrome('Шалаш');
 isPalindrome('Лёша на полке клопа нашёл');
 
@@ -31,30 +31,52 @@ const returnNumber = function(string){
     }
     return Number(numbers);
   }
-}
+};
 returnNumber('ХТМЛ Академия 2022');
 
-//ДЗ 5.16 ФУНКЦИЯ "ДЕЛУ - ВРЕМЯ"
-function isMeetingWithinWorkingHours(startTime, endTime, meetingStartTime, meetingDuration) {
+function EditTime(time) {
+  let [hour, minute] = time.split(':');
+  hour = hour.padStart(2, '0');
+  minute = minute.padStart(2, '0');
+  return `${hour}:${minute}`;
+}
 
-  const workingHoursStart = startTime.split(':');
-  const workingHoursEnd = endTime.split(':');
-  const meetingStart = meetingStartTime.split(':');
+function CheckWorkingHours(startTime, endTime, meetingStartTime, duration) {
+  const meetingEndHour = Math.floor(duration / 60);
+  const meetingEndMinute = duration % 60;
 
-  const workingHoursStartHours = parseInt(workingHoursStart[0]);
-  const workingHoursStartMinutes = parseInt(workingHoursStart[1]);
-  const workingHoursEndHours = parseInt(workingHoursEnd[0]);
-  const workingHoursEndMinutes = parseInt(workingHoursEnd[1]);
-  const meetingStartHours = parseInt(meetingStart[0]);
-  const meetingStartMinutes = parseInt(meetingStart[1]);
-  const meetingEndMinutes = meetingStartMinutes + meetingDuration;
+  startTime = EditTime(startTime);
+  endTime = EditTime(endTime);
+  meetingStartTime = EditTime(meetingStartTime);
 
-  if (meetingStartHours < workingHoursStartHours || meetingEndMinutes > (workingHoursEndHours * 60 + workingHoursEndMinutes)) {
+  let [startHour, startMinute] = startTime.split(':');
+  let [endHour, endMinute] = endTime.split(':');
+  let [meetingStartHour, meetingStartMinute] = meetingStartTime.split(':');
+
+  startHour = parseInt(startHour,10);
+  startMinute = parseInt(startMinute,10);
+  endHour = parseInt(endHour,10);
+  endMinute = parseInt(endMinute,10);
+  meetingStartHour = parseInt(meetingStartHour,10);
+  meetingStartMinute = parseInt(meetingStartMinute,10);
+
+  const durationMinute = meetingStartMinute + meetingEndMinute;
+  const durationHour = meetingStartHour + meetingEndHour;
+
+  if (meetingStartHour < startHour || (meetingStartHour === startHour && meetingStartMinute < startMinute)) {
     return false;
   }
-
+  else if (meetingStartHour > endHour || (meetingStartHour === endHour &&  durationMinute > endMinute)) {
+    return false;
+  }
+  else if (meetingStartHour + meetingEndHour > endHour || ( durationHour === endHour && durationMinute > endMinute)) {
+    return false;
+  }
   return true;
 }
 
-console.log(isMeetingWithinWorkingHours('8:00', '17:00', '10:30', 90)); // true
-console.log(isMeetingWithinWorkingHours('9:00', '15:30', '16:00', 60)); // false
+CheckWorkingHours('08:00', '17:30', '14:00', 90); // true
+CheckWorkingHours('8:0', '10:0', '8:0', 120);     // true
+CheckWorkingHours('08:00', '14:30', '14:00', 90); // false
+CheckWorkingHours('14:00', '17:30', '08:0', 90);  // false
+CheckWorkingHours('8:00', '17:30', '08:00', 900); // false
