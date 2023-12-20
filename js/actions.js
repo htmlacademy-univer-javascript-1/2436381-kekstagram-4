@@ -1,10 +1,5 @@
 import {imagePreview} from './form.js';
 
-const slider = document.querySelector('.effect-level__slider');
-const sliderWrapper = document.querySelector('.effect-level');
-const effectValue = document.querySelector('.effect-level__value');
-const effectList = document.querySelector('.effects__list');
-
 const MAX_BLUR_VALUE = 3;
 const MAX_BRIGHTNESS_VALUE = 3;
 const MIN_BRIGHTNESS_VALUE = 1;
@@ -19,6 +14,11 @@ const Slider = {
   MAX: 100,
   STEP: 0.1
 };
+
+const slider = document.querySelector('.effect-level__slider');
+const sliderWrapper = document.querySelector('.effect-level');
+const effectValue = document.querySelector('.effect-level__value');
+const effectList = document.querySelector('.effects__list');
 
 const Effects = {
   chrome: {
@@ -116,6 +116,7 @@ const onFilterButtonChange = (evt) => {
   if (evtHandler === 'none') {
     sliderWrapper.classList.add('hidden');
     imagePreview.style.filter = 'none';
+    imagePreview.removeAttribute('class');
   }
 
   else {
