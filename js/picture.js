@@ -1,4 +1,4 @@
-import {showBigPicture} from './big-picture.js';
+import {showBigPicture} from './drawFullSize.js';
 const pictures = document.querySelector('.pictures');
 
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -40,6 +40,7 @@ const renderPictures = (photos) => {
   photos.forEach((photo) => {
 
     fragment.appendChild(renderPicture(photo));
+
   });
 
   pictures.appendChild(fragment);

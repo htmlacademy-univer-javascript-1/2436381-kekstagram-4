@@ -10,6 +10,7 @@ const onUploadImageChange =() => {
   const fileName = file.name.toLowerCase();
 
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
   if (matches) {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
@@ -18,7 +19,7 @@ const onUploadImageChange =() => {
     });
     reader.readAsDataURL(file);
   }
-
 };
 
 uploadFile.addEventListener('change', onUploadImageChange);
+
