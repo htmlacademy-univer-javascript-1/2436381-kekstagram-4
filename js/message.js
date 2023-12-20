@@ -1,4 +1,4 @@
-import { closeForm } from './form.js';
+import { closeForm } from './forms.js';
 import { isEscapeKey } from './util.js';
 import { uploadData } from './fetch.js';
 

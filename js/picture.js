@@ -40,6 +40,7 @@ const renderPictures = (photos) => {
   photos.forEach((photo) => {
 
     fragment.appendChild(renderPicture(photo));
+
   });
 
   pictures.appendChild(fragment);

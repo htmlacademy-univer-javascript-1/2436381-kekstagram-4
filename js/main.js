@@ -8,6 +8,7 @@ import './tagsPristine.js';
 import {initEffects} from './actions.js';
 import './strainer.js';
 import './ownPhotos.js';
+import './message.js';
 
 initEffects();
 let photos = [];
