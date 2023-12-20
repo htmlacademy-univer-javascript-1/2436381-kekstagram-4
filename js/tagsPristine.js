@@ -77,16 +77,23 @@ const hashtagsHandler = (value) => {
 };
 
 const commentHandler = (string) => {
+  errorMessage = '';
+
   const inputText = string.trim();
 
-  if (!inputText) {
+  if(!inputText) {
     return true;
-
   }
 
-  const isInvalid = !checkLenght(inputText, MAX_STRING_LENGTH);
-  errorMessage = isInvalid ? `Максимальная длина комментария ${MAX_STRING_LENGTH} символов` : '';
+  const rule = {
+    check: !checkLenght(inputText, MAX_STRING_LENGTH),
+    error: `Максимальная длина комментария ${MAX_STRING_LENGTH} символов`,
+  };
 
+  const isInvalid = rule.check;
+  if(isInvalid) {
+    errorMessage = rule.error;
+  }
   return !isInvalid;
 };
 
