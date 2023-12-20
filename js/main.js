@@ -7,6 +7,7 @@ import './forms.js';
 import './tagsPristine.js';
 import {initEffects} from './actions.js';
 import './strainer.js';
+import './ownPhotos.js';
 
 initEffects();
 let photos = [];
