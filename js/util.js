@@ -1,3 +1,5 @@
+const DELAY = 500;
+
 const randomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(min, max));
   const upper = Math.floor(Math.max(min, max));
@@ -20,6 +22,20 @@ const closeOnEscKeyDown = (evt, cb) => {
   }
 };
 
+const  debounce = (cb) => {
+  let lastTimeOut = null;
+
+  return (...args) =>{
+    if (lastTimeOut){
+      window.clearTimeout(lastTimeOut);
+    }
+    lastTimeOut = window.setTimeout(()=>{
+      cb(...args);
+    }, DELAY);
+  };
+};
+
+const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
 const showAlert = (message, alertShowTime) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
@@ -39,4 +55,4 @@ const showAlert = (message, alertShowTime) => {
   setTimeout(() => alertContainer.remove(), alertShowTime);
 };
 
-export{randomInteger, closeOnEscKeyDown, isEscapeKey, showAlert, checkLenght};
+export{randomInteger, closeOnEscKeyDown, isEscapeKey, showAlert, checkLenght, debounce, shuffleArray};
