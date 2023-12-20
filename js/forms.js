@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { onFilterButtonChange, effectList, sliderWrapper } from './actions.js';
+import {buttonAdjustment} from './tagsPristine.js';
 
 const Zoom = {
   MIN: 25,
@@ -16,7 +17,7 @@ const minusButton = body.querySelector('.scale__control--smaller');
 const plusButton = body.querySelector('.scale__control--bigger');
 const scaleControlValue = body.querySelector('.scale__control--value');
 const imagePreview = body.querySelector('.img-upload__preview img');
-
+const commentsField = formUpload.querySelector('.text__description');
 const closeForm = () => {
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -41,6 +42,18 @@ const onCloseFormEscKeyDown = (evt) => {
   }
 };
 
+const addFieldListener = (field) => {
+  const onFocus = () => {
+    document.removeEventListener('keydown', onCloseFormEscKeyDown);
+  };
+  const onBlur = () => {
+    document.addEventListener('keydown', onCloseFormEscKeyDown);
+  };
+
+  field.addEventListener('focus', onFocus);
+  field.addEventListener('blur', onBlur);
+};
+
 const changeImages = () => {
   const file = fileUpload.files[0];
   const fileUrl = URL.createObjectURL(file);
@@ -55,6 +68,8 @@ const onFileUploadChange = () => {
   document.addEventListener('keydown', onCloseFormEscKeyDown);
   sliderWrapper.classList.add('hidden');
   effectList.addEventListener('change', onFilterButtonChange);
+  addFieldListener(commentsField);
+  buttonAdjustment();
 };
 
 fileUpload.addEventListener('change', onFileUploadChange);
